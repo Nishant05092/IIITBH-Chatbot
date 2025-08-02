@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nixx - IIIT Bhagalpur Chatbot</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="chat-wrapper">
+    <div class="chat-header">
+      🤖 Nixx - IIIT Bhagalpur Assistant
+    </div>
+    <div id="messages" class="messages"></div>
+    <div class="input-area">
+      <input id="user-input" type="text" placeholder="Ask me anything about IIIT Bhagalpur..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const messagesContainer = document.getElementById('messages');
+    const inputBox = document.getElementById('user-input');
+
+    function appendMessage(text, sender) {
+      const messageEl = document.createElement('div');
+      messageEl.className = 'message ' + sender;
+      messageEl.innerText = text;
+      messagesContainer.appendChild(messageEl);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const input = inputBox.value.trim();
+      if (!input) return;
+
+      appendMessage(input, 'user');
+      inputBox.value = '';
+
+      try {
+        const res = await fetch('http://localhost:8000/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: input })
+        });
+        const data = await res.json();
+        appendMessage(data.response || data.error, 'bot');
+      } catch (err) {
+        appendMessage('⚠️ Oops! Nixx couldn’t connect to the server.', 'bot');
+      }
+    }
+
+    inputBox.addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>

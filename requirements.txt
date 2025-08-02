@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+jinja2
+aiofiles
+starlette
+
+langchain
+langchain-community
+langchain-google-genai
+langchain-text-splitters
+chromadb
+PyMuPDF
+httpx
