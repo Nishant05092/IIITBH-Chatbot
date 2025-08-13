@@ -23,7 +23,7 @@ if not api_key:
     raise ValueError("API key not loaded. Check your .env file and key name.")
 
 # Document loading and preprocessing
-loader = PyPDFLoader("IIIT_Bhagalpur_College_Info.pdf")
+loader = PyPDFLoader("IIIT_Bhagalpur_Info.pdf")
 docs = loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
 chunks = text_splitter.split_documents(docs)
