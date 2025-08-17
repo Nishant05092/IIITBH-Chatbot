@@ -39,7 +39,7 @@
       inputBox.value = '';
 
       try {
-        const res = await fetch('https://iiitbh-chatbot.onrender.com/', {
+        const res = await fetch('/chat', {   // ✅ FIXED endpoint
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query: input })
